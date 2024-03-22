@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="template1"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>Patients</title>
+    <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/5.2.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/webjars/bootstrap-icons/1.10.3/font/bootstrap-icons.css">
+    <script src="/webjars/bootstrap/5.2.3/js/bootstrap.bundle.js"></script>
+</head>
+<body>
+    <div layout:fragment="content">
+        <div class="container pt-5">
+            <div class="card bg-light">
+                <div class="card-header">
+                    <h2>Liste Patients</h2>
+                </div>
+                <div class="card-body">
+                    <!-- search -->
+                    <form method="get" th:action="@{index}" class="d-flex justify-content-start mb-3">
+                        <label for="keyword" class="me-5">Nom:</label>
+                        <input type="text" id="keyword" name="keyword" class="form-control w-25" th:value="${keyword}"/>
+                        <button type="submit" class="btn btn-primary"><i class="bi bi-search"></i></button>
+                    </form>
+                    <hr>
+                    <!-- table -->
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nom</th>
+                            <th>Date</th>
+                            <th>Malade</th>
+                            <th>Score</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="patient:${listPatients}">
+                            <td th:text="${patient.id}"></td>
+                            <td th:text="${patient.nom}"></td>
+                            <td th:text="${patient.dateNaissance}"></td>
+                            <td th:text="${patient.malade}"></td>
+                            <td th:text="${patient.score}"></td>
+                            <td>
+                                <a
+                                    onclick="return confirm('Etes vous sure?')"
+                                    class="btn btn-danger"
+                                    th:href="@{delete(id=${patient.id}, keyword=${keyword}, page=${currentPage})}"
+                                >
+                                    <i class="bi bi-trash"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <!-- pagination -->
+                    <ul class="nav nav-pills">
+                        <li th:each="page,status:${pages}">
+                            <a
+                               th:href="@{index(page=${status.index}, keyword=${keyword})}"
+                               th:class="${currentPage == status.index ? 'btn me-2 btn-primary' : 'btn me-2 btn-outline-primary'}"
+                               th:text="${status.index + 1}"
+                            >
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
