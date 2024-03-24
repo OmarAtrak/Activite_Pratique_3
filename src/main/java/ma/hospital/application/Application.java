@@ -26,5 +26,10 @@ public class Application implements CommandLineRunner {
 //        patientRepository.save(new Patient(null,"Imane",new Date(),true,98));
 //        patientRepository.save(new Patient(null,"Yassine",new Date(),true,342));
 //        patientRepository.save(new Patient(null,"Laila",new Date(),false,123));
+//        patientRepository.save(new Patient(null,"Oussama",new Date(),false,73));
+//        patientRepository.save(new Patient(null,"Fayssal",new Date(),false,132));
+//        patientRepository.save(new Patient(null,"Imad",new Date(),false,84));
+//        patientRepository.save(new Patient(null,"Mohamed",new Date(),false,38));
+//        patientRepository.save(new Patient(null,"Ahmed",new Date(),false,38));
     }
 }
