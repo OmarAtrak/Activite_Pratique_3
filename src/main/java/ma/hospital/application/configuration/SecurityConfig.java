@@ -1,5 +1,6 @@
 package ma.hospital.application.configuration;
 
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -15,23 +16,21 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
     @Bean
-    public InMemoryUserDetailsManager inMemoryUserDetailsManager(PasswordEncoder passwordEncoder){
-        String encodedPassword = passwordEncoder.encode("1234");
-        System.out.println(encodedPassword);
+    public InMemoryUserDetailsManager inMemoryUserDetailsManager(PasswordEncoder passwordEncoder) {
+        String password = passwordEncoder.encode("1234");
         return new InMemoryUserDetailsManager(
-                User.withUsername("user1").password(encodedPassword).roles("USER").build(),
-                User.withUsername("user2").password(encodedPassword).roles("USER").build(),
-                User.withUsername("admin").password(encodedPassword).roles("USER","ADMIN").build()
+                User.withUsername("user1").password(password).roles("USER").build(),
+                User.withUsername("user2").password(password).roles("USER").build(),
+                User.withUsername("admin").password(password).roles("USER", "ADMIN").build()
         );
     }
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
                 .formLogin(Customizer.withDefaults())
-                .authorizeHttpRequests(ar->ar.requestMatchers("/deletePatient/**").hasRole("ADMIN"))
-                .authorizeHttpRequests(ar->ar.requestMatchers("/admin/**").hasRole("ADMIN"))
-                .authorizeHttpRequests(ar->ar.requestMatchers("/user/**").hasRole("USER"))
-                .authorizeHttpRequests(ar->ar.anyRequest().authenticated())
+                .authorizeHttpRequests(ar -> ar.requestMatchers("/api/patient/delete").hasRole("ADMIN"))
+                .authorizeHttpRequests(ar -> ar.anyRequest().authenticated())
                 .build();
     }
 }
